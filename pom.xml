@@ -158,6 +158,17 @@ slf4j是规范/接口
       <artifactId>spring-test</artifactId>
       <version>4.1.7.RELEASE</version>
     </dependency>
+    <!--IO-->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3.1</version>
+    </dependency>
   </dependencies>
 
   <build>
