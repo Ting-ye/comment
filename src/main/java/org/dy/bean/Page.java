@@ -4,7 +4,7 @@ package org.dy.bean;
  * 分页对象
  */
 public class Page {
-	
+
 	// 总条数
 	private int totalNumber;
 	// 当前页数
@@ -13,10 +13,11 @@ public class Page {
 	private int totalPage;
 	// 每页显示条数
 	private int pageNumber;
+	//上一页下一页prePage nextPage
 	
 	public Page() {
 	    this.currentPage = 1;
-	    this.pageNumber = 5;
+	    this.pageNumber = 4;
 	}
 
 	public int getTotalNumber() {
@@ -50,10 +51,7 @@ public class Page {
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-	public int getTotalPage() {
-		
-		return totalPage;
-	}
+	public int getTotalPage() { return totalPage; }
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}

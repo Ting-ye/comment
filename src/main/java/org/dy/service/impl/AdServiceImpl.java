@@ -4,12 +4,15 @@ import org.dy.bean.Ad;
 import org.dy.dao.AdDao;
 import org.dy.dto.AdDto;
 import org.dy.service.AdService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdServiceImpl implements AdService{
@@ -19,6 +22,9 @@ public class AdServiceImpl implements AdService{
 
     @Value("${adImage.savePath}")
     private String adImageSavePath;
+
+    @Value("${adImage.url}")
+    private String adImageUrl;
 
     @Override
     public boolean add(AdDto adDto) {
@@ -36,6 +42,8 @@ public class AdServiceImpl implements AdService{
             }
             try {
                 adDto.getImgFile().transferTo(file);
+                System.out.println(file);
+                System.out.println(adImageSavePath);
                 ad.setImgFileName(fileName);
                 adDao.insert(ad);
                 return true;
@@ -46,5 +54,20 @@ public class AdServiceImpl implements AdService{
             return false;
         }
 
+    }
+
+    @Override
+    public List<AdDto> searchByPage(AdDto adDto) {
+        List<AdDto> result =new ArrayList<AdDto>();
+        Ad condition =new Ad();
+        BeanUtils.copyProperties(adDto,condition);
+        List<Ad> adList=adDao.selectByPage(condition);
+        for(Ad ad:adList){
+            AdDto adDtoTemp=new AdDto();
+            result.add(adDtoTemp);
+            adDtoTemp.setImg(adImageUrl+ad.getImgFileName());
+            BeanUtils.copyProperties(ad,adDtoTemp);
+        }
+        return result;
     }
 }
