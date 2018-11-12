@@ -35,7 +35,7 @@
 									<input name="title" id="title" value="" class="allInput" type="text"/>
 								</td>
 	                            <td style="text-align: right;" width="150">
-	                            	<input class="tabSub" value="查询" onclick="search();" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                            	<input class="tabSub" value="查询" id="delId" onclick="search();" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
 	                            		<input class="tabSub" value="添加" onclick="location.href='${basePath}/ad/addInit'" type="button"/>
 									<%--<t:auth url="/ad/addInit">--%>
 										<%--<input class="tabSub" value="添加" onclick="location.href='${basePath}/ad/addInit'" type="button"/>--%>
@@ -58,16 +58,18 @@
 										<td>${s.index + 1}</td>
 										<td>${item.title}</td>
 										<td>${item.link}</td>
-										<td><a href="">修改</a> </td>
-										<td><a href="">删除</a> </td>
 										<td>
+											<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>
+											<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>
+										</td>
+										<%--<td>--%>
 											<%--<t:auth url="/ad/modifyInit">--%>
 												<%--<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;--%>
 											<%--</t:auth>--%>
 											<%--<t:auth url="/ad/remove">--%>
 												<%--<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>--%>
 											<%--</t:auth>--%>
-										</td>
+										<%--</td>--%>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -86,7 +88,7 @@
         $(function(){
             $("#page").Page({
                 totalPages: ${pagenum},//分页总数
-                liNums: ${pagenum},//分页的数字按钮数(建议取奇数)
+                liNums: 3,//分页的数字按钮数(建议取奇数)
                 activeClass: 'activP', //active 类样式定义
                 callBack : function(page){
                     $.ajax({
@@ -99,9 +101,13 @@
                             var str = "" ;
                             for (var i in data) {
                                 str +="<tr>" +
-                                    "<td>" + i + "</td>" +
+                                    "<td>" + (Number(i)+1) + "</td>" +
                                     "<td>" + data[i].title + "</td>" +
                                     "<td>" + data[i].link + "</td>" +
+									"<td>" +
+                                    "<a href='javascript:void(0);' onclick='modifyInit("+data[i].id+")'>修改</a>"+
+                                    "<a href='javascript:void(0);' onclick='remove("+data[i].id+")'>删除</a>"+
+								    "</td>"+
                                     "</tr>";
                             }
 
@@ -111,29 +117,35 @@
                 }
             });
         })
-	 function search(){
+        function search(){
             var param=document.getElementById("title").value;
             if(param==null || param=="")
                 param="BACD6F4771952C9C5D254DE71C485B05";
-         $.ajax({
-             type: "GET",
-             //提交方式
-             url: "${basePath}/ad/search/"+param,
-             //路径
-             success: function(data) {
-                 $("#tab   tr:not(:first)").html("");
-                 var str = "" ;
-                 for (var i in data) {
-                     str +="<tr>" +
-                         "<td>" + i + "</td>" +
-                         "<td>" + data[i].title + "</td>" +
-                         "<td>" + data[i].link + "</td>" +
-                         "</tr>";
-                 }
+            $.ajax({
+                type: "GET",
+                //提交方式
+                url: "${basePath}/ad/search/"+param,
+                //路径
+                success: function(data) {
+                    $("#tab   tr:not(:first)").html("");
+                    var str = "" ;
+                    for (var i in data) {
+                        str +="<tr>" +
+                            "<td>" + ${s.index + 1} + "</td>" +
+                            "<td>" + data[i].title + "</td>" +
+                            "<td>" + data[i].link + "</td>" +
+                            "<td>" +
+                            "<a href='javascript:void(0);' onclick='modifyInit("+data[i].id+")'>修改</a>"+
+                            "<a href='javascript:void(0);' onclick='remove("+data[i].id+")'>删除</a>"+
+                            "</td>"+
+                            "</tr>";
+                    }
 
-                 tbody.innerHTML += str;
-             }
-         });
-	 }
+                    tbody.innerHTML += str;
+                }
+            });
+        }
+
+
 	</script>
 </html>

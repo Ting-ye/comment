@@ -4,6 +4,7 @@ import org.dy.bean.Ad;
 import org.dy.dao.AdDao;
 import org.dy.dto.AdDto;
 import org.dy.service.AdService;
+import org.dy.util.FileUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,5 +70,48 @@ public class AdServiceImpl implements AdService{
             BeanUtils.copyProperties(ad,adDtoTemp);
         }
         return result;
+    }
+
+    @Override
+    public boolean remove(Long id) {
+        Ad ad=adDao.selectById(id);
+        int deleteRows=adDao.delete(id);
+//        FileUtil.delete(adImageSavePath+ad.getImgFileName());
+        return deleteRows==1;
+    }
+
+    @Override
+    public AdDto getById(Long id) {
+        AdDto result=new AdDto();
+        Ad ad=adDao.selectById(id);
+        BeanUtils.copyProperties(ad,result);
+        result.setImg(adImageUrl+ad.getImgFileName());
+        return result;
+    }
+
+    @Override
+    public boolean modify(AdDto adDto) {
+        Ad ad = new Ad();
+        BeanUtils.copyProperties(adDto, ad);
+        String fileName = "";
+        if (adDto.getImgFile() != null && adDto.getImgFile().getSize() > 0) {
+            try {
+                fileName = FileUtil.save(adDto.getImgFile(), adImageSavePath);
+                ad.setImgFileName(fileName);
+                System.out.println(ad.getImgFileName());
+            } catch (IllegalStateException | IOException e) {
+                // TODO 需要添加日志
+                return false;
+            }
+        }
+        int updateCount = adDao.update(ad);
+        if (updateCount != 1) {
+            return false;
+        }
+        //删除原来的图片文件
+//        if (fileName != null) {
+//            return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
+//        }
+        return true;
     }
 }

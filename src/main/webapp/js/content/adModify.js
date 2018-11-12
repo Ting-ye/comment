@@ -17,9 +17,9 @@ $(function() {
 });
 
 function modify() {
-	$("#mainForm").submit();
+    $("#mainForm").submit();
 }
 
 function goback() {
-	location.href = $('#basePath').val() + '/ad';
+	location.href = $('#basePath').val() + '/ad/1';
 }
