@@ -7,6 +7,7 @@ import org.dy.constant.PageCodeEnum;
 import org.dy.dto.AdDto;
 import org.dy.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ import java.util.List;
 public class AdController {
     @Autowired
     private AdService adService;
+
+    @Value("${ad.pageNum}")
+    private int adPagenum;
 
     @RequestMapping
     public String init(Model model){
@@ -37,8 +41,9 @@ public class AdController {
         model.addAttribute("pagenum",pageInfo.getTotal());
         return "content/adList";
     }
-    /*查询*/
-    @RequestMapping(value ="/getlist/{pn}")
+    /*分页查询*/
+    @RequestMapping(value ="/getlist/{pn}",
+                    produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public List<AdDto> getList(@PathVariable Integer pn){
         if(pn<=0 ||pn ==null)
@@ -72,9 +77,9 @@ public class AdController {
     }
 
     /**
-    * 查询
+    * 模糊查询
     */
-    @RequestMapping(value = "/search/{param}",method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{param}")
     @ResponseBody
     public List<AdDto> search(@PathVariable(value = "param") String title){
         AdDto adDto= new AdDto();
