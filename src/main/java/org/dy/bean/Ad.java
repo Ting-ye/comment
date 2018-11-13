@@ -1,5 +1,8 @@
 package org.dy.bean;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Ad {
     private Long id;
     private String title;

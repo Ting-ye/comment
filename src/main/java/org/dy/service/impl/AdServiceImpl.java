@@ -96,7 +96,7 @@ public class AdServiceImpl implements AdService{
         String fileName = "";
         if (adDto.getImgFile() != null && adDto.getImgFile().getSize() > 0) {
             try {
-                fileName = FileUtil.save(adDto.getImgFile(), adImageSavePath);
+                fileName = System.currentTimeMillis()+"_"+FileUtil.save(adDto.getImgFile(), adImageSavePath);
                 ad.setImgFileName(fileName);
                 System.out.println(ad.getImgFileName());
             } catch (IllegalStateException | IOException e) {
