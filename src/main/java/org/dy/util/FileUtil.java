@@ -25,8 +25,9 @@ public class FileUtil {
             if (!fileFolder.exists()) {
                 fileFolder.mkdirs();
             }
-            File saveFile = getFile(savePath, file.getOriginalFilename());
+            File saveFile = getFile(savePath, System.currentTimeMillis()+"_"+file.getOriginalFilename());
             file.transferTo(saveFile);
+            System.out.println(saveFile.getPath());
             return saveFile.getName();
         }
         return null;
