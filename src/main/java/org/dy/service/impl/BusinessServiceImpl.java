@@ -115,8 +115,16 @@ public class BusinessServiceImpl implements BusinessService{
         PageInfo pageInfo= new PageInfo(list);
         result.setHasMore(pageInfo.getPageNum()<pageInfo.getTotal());
 
-
-        
+        // 对查询出的结果进行格式化
+        for(Business business:list){
+            BusinessDto businessDtoTemp=new BusinessDto();
+            result.getData().add(businessDtoTemp);
+            BeanUtils.copyProperties(business,businessDtoTemp);
+            businessDtoTemp.setImg(url+business.getImgFileName());
+            // 为兼容前端mumber这个属性
+            businessDtoTemp.setMumber(business.getSellnumber());
+//            businessDtoTemp.setStar(this.getStar(business));
+        }
         return result;
     }
 }
