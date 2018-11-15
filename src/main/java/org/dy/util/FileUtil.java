@@ -25,12 +25,20 @@ public class FileUtil {
             if (!fileFolder.exists()) {
                 fileFolder.mkdirs();
             }
-            File saveFile = getFile(savePath, System.currentTimeMillis()+"_"+file.getOriginalFilename());
+            File saveFile = getFile(savePath, file.getOriginalFilename());
             file.transferTo(saveFile);
             System.out.println(saveFile.getPath());
             return saveFile.getName();
         }
         return null;
+    }
+    private static File getFile(String savePath, String originalFilename) {
+        String fileName = System.currentTimeMillis() + "_" + originalFilename;
+        File file = new File(savePath + fileName);
+        if (file.exists()) {
+            return getFile(savePath, originalFilename);
+        }
+        return file;
     }
 
     /**
@@ -48,4 +56,5 @@ public class FileUtil {
         }
         return false;
     }
+
 }

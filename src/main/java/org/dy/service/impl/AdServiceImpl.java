@@ -76,7 +76,7 @@ public class AdServiceImpl implements AdService{
     public boolean remove(Long id) {
         Ad ad=adDao.selectById(id);
         int deleteRows=adDao.delete(id);
-//        FileUtil.delete(adImageSavePath+ad.getImgFileName());
+      FileUtil.delete(adImageSavePath+ad.getImgFileName());
         return deleteRows==1;
     }
 
@@ -96,7 +96,7 @@ public class AdServiceImpl implements AdService{
         String fileName = "";
         if (adDto.getImgFile() != null && adDto.getImgFile().getSize() > 0) {
             try {
-                fileName = System.currentTimeMillis()+"_"+FileUtil.save(adDto.getImgFile(), adImageSavePath);
+                fileName = FileUtil.save(adDto.getImgFile(), adImageSavePath);
                 ad.setImgFileName(fileName);
                 System.out.println(ad.getImgFileName());
             } catch (IllegalStateException | IOException e) {
@@ -109,9 +109,9 @@ public class AdServiceImpl implements AdService{
             return false;
         }
         //删除原来的图片文件
-//        if (fileName != null) {
-//            return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
-//        }
+        if (fileName != null) {
+            return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
+        }
         return true;
     }
 }
