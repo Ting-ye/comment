@@ -116,7 +116,7 @@ public class BusinessServiceImpl implements BusinessService{
         result.setHasMore(pageInfo.getPageNum()<pageInfo.getTotal());
 
 
-
+        
         return result;
     }
 }
