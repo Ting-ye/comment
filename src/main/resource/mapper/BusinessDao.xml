@@ -3,7 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.dy.dao.BusinessDao">
-    <resultMap id="BusinessResultMap" type="Business">
+
+    <resultMap id="BusinessResultMap" type="org.dy.bean.Business">
         <id column="id" property="id"/>
         <result column="img_file_name" property="imgFileName"/>
         <result column="title" property="title"/>
@@ -20,7 +21,7 @@
             <result column="city_name" property="name"/>
         </association>
         <association property="categoryDic" javaType="org.dy.bean.Dic">
-            <result column="category_name" property="category"/>
+            <result column="category_name" property="name"/>
         </association>
     </resultMap>
 
@@ -41,10 +42,10 @@
 
     <select id="searchByPage" resultMap="BusinessResultMap">
         select b.id,b.img_file_name,b.title,b.subtitle,b.price,b.distance,b.sellnumber,b.`desc`,
-        b.city,b.category,b.star_total_num,b.comment_total_num
+        b.city,b.category,b.star_total_num,b.comment_total_num,d_city.name city_name,d_category.name category_name
         from business b
-        left join dic d_city on b.city=d_city.code and d_city.type='${org.dy.constant.DicTypeConst@CITY}'
-        left join dic d_category on b.category=d_category and d_category.type='${org.dy.constant.DicTypeConst@CATEGORY}'
+        left join dic d_city on b.city=d_city.code and d_city.type='${@org.dy.constant.DicTypeConst@CITY}'
+        left join dic d_category on b.category=d_category.code and d_category.type='${@org.dy.constant.DicTypeConst@CATEGORY}'
         <where>
             <if test="title != null and !&quot;&quot;.equals(title.trim())">
                 and b.title like '%' #{title} '%'

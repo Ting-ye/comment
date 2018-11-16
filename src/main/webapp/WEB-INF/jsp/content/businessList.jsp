@@ -10,7 +10,9 @@
 		<link rel="stylesheet" type="text/css" href="${basePath}/css/all.css"/>
 		<link rel="stylesheet" type="text/css" href="${basePath}/css/pop.css"/>
 		<link rel="stylesheet" type="text/css" href="${basePath}/css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/jquery.page.css"/>
 		<script type="text/javascript" src="${basePath}/js/common/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="${basePath}/js/common/jquery.page.js"></script>
 		<script type="text/javascript" src="${basePath}/js/content/businessList.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
@@ -31,15 +33,16 @@
 								</td>
 	                            <td style="text-align: right;" width="150">
 	                            	<input class="tabSub" value="查询" onclick="search('1');" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
-	                            	<t:auth url="/businesses/addPage" method="GET">
-	                            		<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>
-	                            	</t:auth>
+	                            	<%--<t:auth url="/businesses/addPage" method="GET">--%>
+	                            		<%--<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>--%>
+	                            	<%--</t:auth>--%>
+										<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>
 	                            </td>
 	       					</tr>
 						</tbody>
 					</table>
 					<div class="zixun fix">
-						<table class="tab2" width="100%">
+						<table class="tab2" width="100%" id="tab">
 							<tbody>
 								<tr>
 								    <th>序号</th>
@@ -50,7 +53,7 @@
 								    <th>操作</th>
 								</tr>
 								
-								<c:forEach items="${list}" var="item" varStatus="s">
+								<c:forEach items="${adlist}" var="item" varStatus="s">
 									<tr>
 										<td>${s.index + 1}</td>
 										<td>${item.title}</td>
@@ -58,23 +61,63 @@
 										<td>${item.cityDic.name}</td>
 										<td>${item.categoryDic.name}</td>
 										<td>
-											<t:auth url="/businesses/${item.id}" method="PUT">
-												<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-											</t:auth>
-											<t:auth url="/businesses/${item.id}" method="DELETE">
-												<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>
-											</t:auth>
+											<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>
+											<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>
 										</td>
+											<%--<t:auth url="/businesses/${item.id}" method="PUT">--%>
+												<%--<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;--%>
+											<%--</t:auth>--%>
+											<%--<t:auth url="/businesses/${item.id}" method="DELETE">--%>
+												<%--<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>--%>
+											<%--</t:auth>--%>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 						
 						<!-- 分页 -->
-						<t:page jsMethodName="search" page="${searchParam.page}"></t:page>
+						<div id="page"></div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</body>
+	<script>
+        var tbody=window.document.getElementById("tab");
+        $(function(){
+            $("#page").Page({
+                totalPages: ${pagenum},//分页总数
+                liNums: 3,//分页的数字按钮数(建议取奇数)
+                activeClass: 'activP', //active 类样式定义
+                callBack : function(page){
+                    $.ajax({
+                        type: "GET",
+                        //提交方式
+                        url: "${basePath}/business/getlist/"+page,
+                        //路径
+                        success: function(data) {
+                            $("#tab   tr:not(:first)").html("");
+                            var str = "" ;
+                            for (var i in data) {
+                                str +="<tr>" +
+                                    "<td>" + (Number(i)+1) + "</td>" +
+                                    "<td>" + data[i].title + "</td>" +
+                                    "<td>" + data[i].link + "</td>" +
+                                    "<td>" + data[i].subtitle + "</td>"+
+                                    "<td>" + data[i].cityDic.name + "</td>"+
+                                    "<td>" + data[i].categoryDic.name + "</td>"+
+                                    "<td>" +
+                                    "<a href='javascript:void(0);' onclick='modifyInit("+data[i].id+")'>修改</a>"+
+                                    "<a href='javascript:void(0);' onclick='remove("+data[i].id+")'>删除</a>"+
+                                    "</td>"+
+                                    "</tr>";
+                            }
+
+                            tbody.innerHTML += str;
+                        }
+                    });
+                }
+            });
+        })
+	</script>
 </html>

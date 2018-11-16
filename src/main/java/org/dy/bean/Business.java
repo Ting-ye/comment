@@ -14,8 +14,28 @@ public class Business {
     private Long starTotalNum;
     private Long commentTotalNum;
 
-    private String cityDic;
-    private String categoryDic;
+    private Dic cityDic;
+    private Dic categoryDic;
+
+    public Long getStarTotalNum() {
+        return starTotalNum;
+    }
+
+    public Dic getCityDic() {
+        return cityDic;
+    }
+
+    public void setCityDic(Dic cityDic) {
+        this.cityDic = cityDic;
+    }
+
+    public Dic getCategoryDic() {
+        return categoryDic;
+    }
+
+    public void setCategoryDic(Dic categoryDic) {
+        this.categoryDic = categoryDic;
+    }
 
     public Long getId() {
         return id;
@@ -97,24 +117,6 @@ public class Business {
         this.category = category;
     }
 
-    public String getCityDic() {
-        return cityDic;
-    }
-
-    public void setCityDic(String cityDic) {
-        this.cityDic = cityDic;
-    }
-
-    public String getCategoryDic() {
-        return categoryDic;
-    }
-
-    public void setCategoryDic(String categoryDic) {
-        this.categoryDic = categoryDic;
-    }
-    public Long getStarTotalNum() {
-        return starTotalNum;
-    }
 
     public void setStarTotalNum(Long starTotalNum) {
         this.starTotalNum = starTotalNum;
