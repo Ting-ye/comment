@@ -13,6 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="${basePath}/css/jquery.page.css"/>
 		<script type="text/javascript" src="${basePath}/js/common/jquery-1.8.3.js"></script>
 		<script type="text/javascript" src="${basePath}/js/common/jquery.page.js"></script>
+		<script type="text/javascript" src="${basePath}/js/common/common.js"></script>
 		<script type="text/javascript" src="${basePath}/js/content/businessList.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">

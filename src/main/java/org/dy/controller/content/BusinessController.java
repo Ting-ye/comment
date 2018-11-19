@@ -74,7 +74,7 @@ public class BusinessController {
     }
 
     /**删除用户*/
-    @RequestMapping(value = "/remove/{id}")
+    @RequestMapping(value = "/remove/{id}",method = RequestMethod.DELETE)
     public String remove(@PathVariable Long id,Model model){
         if(businessService.remove(id)){
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.REMOVE_SUCCESS);
