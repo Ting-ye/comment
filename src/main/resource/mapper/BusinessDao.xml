@@ -47,7 +47,7 @@
         left join dic d_city on b.city=d_city.code and d_city.type='${@org.dy.constant.DicTypeConst@CITY}'
         left join dic d_category on b.category=d_category.code and d_category.type='${@org.dy.constant.DicTypeConst@CATEGORY}'
         <where>
-            <if test="title != null and !&quot;&quot;.equals(title.trim())">
+            <if test="title != null and title != ''">
                 and b.title like '%' #{title} '%'
             </if>
             <if test="subtitle != null and !&quot;&quot;.equals(subtitle.trim())">
@@ -82,5 +82,10 @@
             </if>
         </where>
         order by id
+    </select>
+
+    <select id="searchtest" resultType="org.dy.bean.Business">
+        select <include refid="columns"/> from business
+
     </select>
 </mapper>

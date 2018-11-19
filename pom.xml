@@ -41,22 +41,30 @@ slf4j是规范/接口
 使用:slf4j+logback
     -->
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.12</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.12</version>
-    </dependency>
-    <!--实现slf4j接口-->
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.7</version>
+  </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <version>1.1.1</version>
+      <version>0.9.28</version>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-access</artifactId>
+      <version>0.9.28</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>0.9.28</version>
+    </dependency>
+      <dependency>
+          <groupId>org.logback-extensions</groupId>
+          <artifactId>logback-ext-spring</artifactId>
+          <version>0.1.4</version>
+      </dependency>
     <!--1.数据库相关依赖-->
     <dependency>
       <groupId>mysql</groupId>

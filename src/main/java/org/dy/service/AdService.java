@@ -15,10 +15,12 @@ public interface AdService {
     boolean add(AdDto adDto);
     /**
      * 分页搜索广告列表
-     * @param adDto 查询条件(包含分页对象)
-     * @return 广告列表
      */
-    List<AdDto> searchByPage(AdDto adDto);
+//    List<AdDto> searchByPage(AdDto adDto);
+
+    List<Ad> searchByPage(AdDto adDto);
+
+    List<AdDto> searchByPageHelper(List<Ad> adDtoList);
     /**
      * 删除广告
      * @param id

@@ -38,4 +38,9 @@ public interface BusinessDao {
      * 更新商户的【统计评论星星总数】、【统计评论总次数】，商户的【星级】用这两个字段数据计算得出
      */
     int updateStar(Map<String,Date> map);
+
+    /**
+     * test pagehelper
+     * */
+    List<Business> searchtest();
 }

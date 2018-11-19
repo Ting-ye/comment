@@ -1,5 +1,6 @@
 package org.dy.service;
 
+import org.dy.bean.Business;
 import org.dy.dto.BusinessDto;
 import org.dy.dto.BusinessListDto;
 
@@ -30,7 +31,15 @@ public interface BusinessService {
      * @param businessDto 查询条件
      * @return 商户列表
      */
-    List<BusinessDto> searchByPage(BusinessDto businessDto);
+//    List<BusinessDto> searchByPage(BusinessDto businessDto);
+
+    /**
+     * 分页搜索商户列表
+     * 先查询出business 然后再利用PageHelper插件 这样才可以得到正确的数值                
+     * */
+    List<Business> searchByPage(BusinessDto businessDto);
+
+    List<BusinessDto> searchByPageHelper(List<Business> businessList);
 
     /**
      * 分页搜索商户列表(接口专用)
@@ -38,4 +47,6 @@ public interface BusinessService {
      * @return 商户列表Dto对象
      */
     BusinessListDto searchByPageForApi(BusinessDto businessDto);
+
+    List<Business> getBusinessListTest();
 }

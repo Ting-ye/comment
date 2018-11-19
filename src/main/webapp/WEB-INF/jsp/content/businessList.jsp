@@ -29,10 +29,10 @@
 							<tr>
 								<td align="right" width="80">标题：</td>
 								<td>
-									<input name="title" id="title" value="${searchParam.title}" class="allInput" type="text"/>
+									<input name="title" id="title"  class="allInput" type="text"/>
 								</td>
 	                            <td style="text-align: right;" width="150">
-	                            	<input class="tabSub" value="查询" onclick="search('1');" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                            	<input class="tabSub" value="查询" onclick="search();" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
 	                            	<%--<t:auth url="/businesses/addPage" method="GET">--%>
 	                            		<%--<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>--%>
 	                            	<%--</t:auth>--%>
@@ -53,7 +53,7 @@
 								    <th>操作</th>
 								</tr>
 								
-								<c:forEach items="${adlist}" var="item" varStatus="s">
+								<c:forEach items="${bsList}" var="item" varStatus="s">
 									<tr>
 										<td>${s.index + 1}</td>
 										<td>${item.title}</td>
@@ -87,7 +87,7 @@
         $(function(){
             $("#page").Page({
                 totalPages: ${pagenum},//分页总数
-                liNums: 3,//分页的数字按钮数(建议取奇数)
+                liNums: 5,//分页的数字按钮数(建议取奇数)
                 activeClass: 'activP', //active 类样式定义
                 callBack : function(page){
                     $.ajax({
@@ -102,7 +102,6 @@
                                 str +="<tr>" +
                                     "<td>" + (Number(i)+1) + "</td>" +
                                     "<td>" + data[i].title + "</td>" +
-                                    "<td>" + data[i].link + "</td>" +
                                     "<td>" + data[i].subtitle + "</td>"+
                                     "<td>" + data[i].cityDic.name + "</td>"+
                                     "<td>" + data[i].categoryDic.name + "</td>"+
@@ -119,5 +118,35 @@
                 }
             });
         })
+        function search(){
+            var param=document.getElementById("title").value;
+            if(param==null || param=="")
+                param="BACD6F4771952C9C5D254DE71C485B05";
+            $.ajax({
+                type: "GET",
+                //提交方式
+                url: "${basePath}/business/search/"+param,
+                //路径
+                success: function(data) {
+                    $("#tab   tr:not(:first)").html("");
+                    var str = "" ;
+                    for (var i in data) {
+                        str +="<tr>" +
+                            "<td>" + ${s.index + 1} + "</td>" +
+                            "<td>" + data[i].title + "</td>" +
+                            "<td>" + data[i].subtitle + "</td>" +
+                            "<td>" + data[i].cityDic.name+ "</td>" +
+                            "<td>" + data[i].categoryDic.name + "</td>" +
+                            "<td>" +
+                            "<a href='javascript:void(0);' onclick='modifyInit("+data[i].id+")'>修改</a>"+
+                            "<a href='javascript:void(0);' onclick='remove("+data[i].id+")'>删除</a>"+
+                            "</td>"+
+                            "</tr>";
+                    }
+
+                    tbody.innerHTML += str;
+                }
+            });
+        }
 	</script>
 </html>

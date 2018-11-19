@@ -26,7 +26,7 @@ public class AdController {
 
     @RequestMapping
     public String init(Model model){
-        List<AdDto> adList=adService.searchByPage(new AdDto());
+        List<Ad> adList=adService.searchByPage(new AdDto());
         model.addAttribute("adlsit",adList);
         return "content/adList";
     }
@@ -35,10 +35,11 @@ public class AdController {
         if(pn<=0 ||pn ==null||pn.equals(""))
             pn=1;
         PageHelper.startPage(pn,5);
-        List<AdDto> adList=adService.searchByPage(new AdDto());
+        List<Ad> adList=adService.searchByPage(new AdDto());
         PageInfo pageInfo= new PageInfo(adList);
-        model.addAttribute("adlist",adList);
-        model.addAttribute("pagenum",pageInfo.getTotal());
+        List<AdDto> list=adService.searchByPageHelper(adList);
+        model.addAttribute("adlist",list);
+        model.addAttribute("pagenum",pageInfo.getPages());
         return "content/adList";
     }
     /*分页查询*/
@@ -49,11 +50,25 @@ public class AdController {
         if(pn<=0 ||pn ==null)
             pn=1;
         PageHelper.startPage(pn,5);
-        List<AdDto> adList=adService.searchByPage(new AdDto());
+        List<Ad> adList=adService.searchByPage(new AdDto());
         PageInfo pageInfo= new PageInfo(adList);
-        return adList;
+        return adService.searchByPageHelper(adList);
     }
-
+    /**
+     * 模糊查询
+     */
+    @RequestMapping(value = "/search/{param}")
+    @ResponseBody
+    public List<AdDto> search(@PathVariable(value = "param") String title){
+        AdDto adDto= new AdDto();
+        if(!title.equals("BACD6F4771952C9C5D254DE71C485B05"))
+            adDto.setTitle(title);
+            int pn=1;
+        PageHelper.startPage(pn,5);
+        List<Ad> adList= adService.searchByPage(adDto);
+        PageInfo pageInfo= new PageInfo(adList);
+        return  adService.searchByPageHelper(adList);
+    }
 
     /**
      * 新增页初始化
@@ -76,20 +91,7 @@ public class AdController {
         return "/content/adAdd";
     }
 
-    /**
-    * 模糊查询
-    */
-    @RequestMapping(value = "/search/{param}")
-    @ResponseBody
-    public List<AdDto> search(@PathVariable(value = "param") String title){
-        AdDto adDto= new AdDto();
-      if(!title.equals("BACD6F4771952C9C5D254DE71C485B05"))
-        adDto.setTitle(title);
 
-      System.out.println("title="+adDto.getTitle());
-       List<AdDto> adlist= adService.searchByPage(adDto);
-       return  adlist;
-    }
     /**
      * 删除
      */

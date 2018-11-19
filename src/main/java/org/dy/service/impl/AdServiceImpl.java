@@ -58,12 +58,29 @@ public class AdServiceImpl implements AdService{
     }
 
     @Override
-    public List<AdDto> searchByPage(AdDto adDto) {
-        List<AdDto> result =new ArrayList<AdDto>();
-        Ad condition =new Ad();
+    public List<Ad> searchByPage(AdDto adDto) {
+//        List<AdDto> result =new ArrayList<AdDto>();
+//        Ad condition =new Ad();
+//        BeanUtils.copyProperties(adDto,condition);
+//        List<Ad> adList=adDao.selectByPage(condition);
+//        for(Ad ad:adList){
+//            AdDto adDtoTemp=new AdDto();
+//            result.add(adDtoTemp);
+//            adDtoTemp.setImg(adImageUrl+ad.getImgFileName());
+//            BeanUtils.copyProperties(ad,adDtoTemp);
+//        }
+//        return result;
+
+        Ad condition=new Ad();
         BeanUtils.copyProperties(adDto,condition);
         List<Ad> adList=adDao.selectByPage(condition);
-        for(Ad ad:adList){
+        return adList;
+    }
+
+    @Override
+    public List<AdDto> searchByPageHelper(List<Ad> adDtoList) {
+        List<AdDto> result=new ArrayList<AdDto>();
+        for(Ad ad:adDtoList){
             AdDto adDtoTemp=new AdDto();
             result.add(adDtoTemp);
             adDtoTemp.setImg(adImageUrl+ad.getImgFileName());

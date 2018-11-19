@@ -71,19 +71,40 @@ public class BusinessServiceImpl implements BusinessService{
         return result;
     }
 
+//    @Override
+//    public List<BusinessDto> searchByPage(BusinessDto businessDto) {
+//        List<BusinessDto> result =new ArrayList<BusinessDto>();
+//        Business condition=new Business();
+//        BeanUtils.copyProperties(businessDto,condition);
+//        List<Business> businessList=businessDao.searchByPage(condition);
+//        for(Business business:businessList){
+//            BusinessDto busiDto=new BusinessDto();
+//            result.add(busiDto);
+//            busiDto.setImg(url+business.getImgFileName());
+//            BeanUtils.copyProperties(business,busiDto);
+//        }
+//
+//        return result;
+//    }
+
     @Override
-    public List<BusinessDto> searchByPage(BusinessDto businessDto) {
-        List<BusinessDto> result =new ArrayList<BusinessDto>();
+    public List<Business> searchByPage(BusinessDto businessDto) {
         Business condition=new Business();
         BeanUtils.copyProperties(businessDto,condition);
         List<Business> businessList=businessDao.searchByPage(condition);
+        return businessList;
+    }
+
+    @Override
+    public List<BusinessDto> searchByPageHelper(List<Business> businessList) {
+        List<BusinessDto> result =new ArrayList<BusinessDto>();
         for(Business business:businessList){
             BusinessDto busiDto=new BusinessDto();
             result.add(busiDto);
             busiDto.setImg(url+business.getImgFileName());
             BeanUtils.copyProperties(business,busiDto);
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -118,5 +139,10 @@ public class BusinessServiceImpl implements BusinessService{
 
         
         return result;
+    }
+
+    @Override
+    public List<Business> getBusinessListTest() {
+        return businessDao.searchtest();
     }
 }

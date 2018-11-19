@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.dy.bean.Ad;
 import org.dy.dto.AdDto;
 import org.dy.service.AdService;
 
@@ -37,9 +38,9 @@ public class ApiController {
 	public List<AdDto> homead() {
 		AdDto adDto = new AdDto();
 		PageHelper.startPage(1,adPageNum);
-		List<AdDto> adList=adService.searchByPage(new AdDto());
+		List<Ad> adList=adService.searchByPage(new AdDto());
 		PageInfo pageInfo= new PageInfo(adList);
-		return adList;
+		return adService.searchByPageHelper(adList);
 	}
 
 }

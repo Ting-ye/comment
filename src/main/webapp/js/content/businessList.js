@@ -1,12 +1,8 @@
 function remove(id) {
-	$("#mainForm").attr("action",$("#basePath").val() + "/businesses/" + id);
-	$("#mainForm").submit();
-}
-
-function search() {
-	$("#mainForm").attr("method","GET");
-	$("#mainForm").attr("action",$("#basePath").val() + "/businesses");
-	$("#mainForm").submit();
+    if(confirm("确定要删除这条广告吗？")) {
+        $("#mainForm").attr("action", $("#basePath").val() + "/business/remove" + id);
+        $("#mainForm").submit();
+    }
 }
 
 function modifyInit(id) {
