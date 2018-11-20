@@ -125,13 +125,18 @@ public class BusinessController {
      * 商户修改
      */
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.PUT)
-    @ResponseBody
     public String modify(@PathVariable("id") Long id, BusinessDto dto,Model model) {
         if(businessService.modify(dto)){
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.MODIFY_SUCCESS);
         }else {
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.MODIFY_FAIL);
         }
-        return "content/adModify";
+      return "redirect:/business/1";
+       // return "redirect:/business/jump?path=content/businessList/1";
+    }
+    @RequestMapping("/jump")
+    public String jumpPage(String path){
+        System.out.println("111");
+        return  path;
     }
 }
