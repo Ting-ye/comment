@@ -5,11 +5,11 @@ $(function() {
 
 function remove(id) {
     if(confirm("确定要删除这个商家吗？")) {
-        $("#mainForm").attr("action", $("#basePath").val() + "/business/remove"+id);
+        $("#mainForm").attr("action", $("#basePath").val() + "/business/remove/"+id);
         $("#mainForm").submit();
     }
 }
 
 function modifyInit(id) {
-	location.href = $("#basePath").val() + "/businesses/" + id;
+	location.href = $("#basePath").val() + "/business/modify/" + id;
 }

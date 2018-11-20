@@ -3,6 +3,7 @@ package org.dy.controller.content;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.dy.bean.Business;
+import org.dy.constant.DicTypeConst;
 import org.dy.constant.PageCodeEnum;
 import org.dy.dto.BusinessDto;
 import org.dy.service.BusinessService;
@@ -81,6 +82,56 @@ public class BusinessController {
         }else{
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.REMOVE_FAIL);
         }
-        return "forward:/business/1";
+        return "redirect:/business/1";
+    }
+    /**
+     * 添加用户 初始化页面
+     * */
+    @RequestMapping(value = "/addPage")
+    public String addInit(Model model){
+        model.addAttribute("cityList", dicService.getListByType(DicTypeConst.CITY));
+        model.addAttribute("categoryList", dicService.getListByType(DicTypeConst.CATEGORY));
+        return "/content/businessAdd";
+    }
+
+    /**
+     * 新增
+     * */
+    @RequestMapping(value = "/addBusiness",method = RequestMethod.POST)
+    public String add(BusinessDto businessDto,Model model){
+        if(businessService.add(businessDto)){
+            model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.ADD_SUCCESS);
+            return "redirect:/business/1";
+        }else {
+            model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.ADD_FAIL);
+            return "redirect:/business/addPage";
+        }
+
+    }
+
+    /**
+     * 修改页面初始化
+     * */
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
+    public String modifyInit(@PathVariable Long id,Model model){
+        model.addAttribute("cityList", dicService.getListByType(DicTypeConst.CITY));
+        model.addAttribute("categoryList", dicService.getListByType(DicTypeConst.CATEGORY));
+        BusinessDto businessDto=businessService.getById(id);
+        model.addAttribute("modifyObj",businessDto);
+        return "content/businessModify";
+    }
+
+    /**
+     * 商户修改
+     */
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public String modify(@PathVariable("id") Long id, BusinessDto dto,Model model) {
+        if(businessService.modify(dto)){
+            model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.MODIFY_SUCCESS);
+        }else {
+            model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.MODIFY_FAIL);
+        }
+        return "content/adModify";
     }
 }

@@ -88,7 +88,7 @@ public class AdController {
         }else{
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.ADD_FAIL);
         }
-        return "/content/adAdd";
+        return "content/adAdd";
     }
 
 
@@ -102,7 +102,7 @@ public class AdController {
         }else {
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.REMOVE_FAIL);
         }
-        return "forward:/ad/1";
+        return "redirect:/ad/1";
     }
     /**
      * 修改页面初始化
@@ -111,7 +111,7 @@ public class AdController {
     public String modifyInit(Model model,@RequestParam(required = true) Long id){
         Ad ad=adService.getById(id);
         model.addAttribute("modifyObj",ad);
-        return "/content/adModify";
+        return "content/adModify";
     }
     /**
      * 修改
@@ -124,6 +124,6 @@ public class AdController {
         }else {
             model.addAttribute(PageCodeEnum.KEY,PageCodeEnum.MODIFY_FAIL);
         }
-        return "/content/adModify";
+        return "content/adModify";
     }
 }

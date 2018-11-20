@@ -8,8 +8,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.dy.bean.Ad;
 import org.dy.dto.AdDto;
+import org.dy.dto.BusinessDto;
+import org.dy.dto.BusinessListDto;
 import org.dy.service.AdService;
 
+import org.dy.service.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,9 @@ public class ApiController {
 
 	@Autowired
 	private AdService adService;
+
+	@Resource
+	private BusinessService businessService;
 
 
 
@@ -43,4 +49,35 @@ public class ApiController {
 		return adService.searchByPageHelper(adList);
 	}
 
+	/**
+	 * 首页 —— 推荐列表（猜你喜欢）
+	 */
+	@RequestMapping(value = "/homelist/{city}/{page.currentPage}", method = RequestMethod.GET)
+	public BusinessListDto homelist(BusinessDto businessDto) {
+		return businessService.searchByPageForApi(businessDto);
+	}
+
+	/**
+	 * 搜索结果页 - 搜索结果 - 三个参数
+	 */
+	@RequestMapping(value = "/search/{page.currentPage}/{city}/{category}/{keyword}", method = RequestMethod.GET)
+	public BusinessListDto searchByKeyword(BusinessDto businessDto) {
+		return businessService.searchByPageForApi(businessDto);
+	}
+
+	/**
+	 * 搜索结果页 - 搜索结果 - 两个参数
+	 */
+	@RequestMapping(value = "/search/{page.currentPage}/{city}/{category}", method = RequestMethod.GET)
+	public BusinessListDto search(BusinessDto businessDto) {
+		return businessService.searchByPageForApi(businessDto);
+	}
+
+	/**
+	 * 详情页 - 商户信息
+	 */
+	@RequestMapping(value = "/detail/info/{id}", method = RequestMethod.GET)
+	public BusinessDto detail(@PathVariable("id") Long id) {
+		return businessService.getById(id);
+	}
 }

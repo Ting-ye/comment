@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.dy.dao.DicDao">
-    <select id="select">
-        select type,code,name,weight from dic
-        order by weight
+    <select id="select" resultType="org.dy.bean.Dic">
+        select * from dic where type=#{type}
+		order by weight
     </select>
 </mapper>

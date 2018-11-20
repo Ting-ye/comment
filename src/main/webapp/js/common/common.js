@@ -36,7 +36,8 @@ common.ajax = function(param) {
 common.pageCode = {
 		"ADD_SUCCESS" : 1000,
 		"MODIFY_SUCCESS" : 1100,
-		"REMOVE_SUCCESS" : 1200
+		"REMOVE_SUCCESS" : 1200,
+	     "REMOVE_FAIL"  : 1201
 }
 
 common.menuPrefix = {

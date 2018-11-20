@@ -142,7 +142,34 @@ public class BusinessServiceImpl implements BusinessService{
     }
 
     @Override
+    public boolean modify(BusinessDto bsDto) {
+        Business business=new Business();
+        BeanUtils.copyProperties(bsDto,business);
+        String fileName = "";
+        if(bsDto.getImgFile() !=null &&bsDto.getImgFile().getSize()>0){
+            try{
+                fileName=FileUtil.save(bsDto.getImgFile(),savePath);
+                business.setImgFileName(fileName);
+            } catch (IOException e) {
+                // TODO 需要添加日志
+                return false;
+            }
+        }
+        int updateRow=businessDao.update(business);
+        if(updateRow !=1){
+            return false;
+        }
+        //删除原来的图片文件
+        if (fileName != null) {
+            return FileUtil.delete(savePath + bsDto.getImgFileName());
+        }
+        return true;
+    }
+
+    @Override
     public List<Business> getBusinessListTest() {
         return businessDao.searchtest();
     }
+
+
 }

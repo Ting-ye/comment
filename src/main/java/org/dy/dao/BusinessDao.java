@@ -25,6 +25,10 @@ public interface BusinessDao {
      *  根据查询条件分页查询商户列表
      */
     List<Business> searchByPage(Business business);
+    /**
+     * 修改用户
+     * */
+    int update(Business business);
 
     /**
      *  根据查询条件分页查询商户列表 :

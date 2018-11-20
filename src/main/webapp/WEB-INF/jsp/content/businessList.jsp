@@ -17,8 +17,9 @@
 		<script type="text/javascript" src="${basePath}/js/content/businessList.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
-		<form action="${basePath}/businesses/search" id="mainForm" method="post">
+		<form action="${basePath}/business/search" id="mainForm" method="post">
 			<input type="hidden" name="_method" value="DELETE"/>
+			<input type="hidden" id="message" value="${pageCode.msg}"/>
 			<input type="hidden" id="basePath" value="${basePath}"/>
 			<input type="hidden" name="page.currentPage" id="currentPage" value="1"/>
 			<div class="right">
@@ -37,7 +38,7 @@
 	                            	<%--<t:auth url="/businesses/addPage" method="GET">--%>
 	                            		<%--<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>--%>
 	                            	<%--</t:auth>--%>
-										<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>
+										<input class="tabSub" value="添加" onclick="location.href='${basePath}/business/addPage'" type="button"/>
 	                            </td>
 	       					</tr>
 						</tbody>

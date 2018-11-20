@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="${basePath}/js/content/businessAdd.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
-		<form id="mainForm" method="post" action="${basePath}/businesses" enctype="multipart/form-data">
+		<form id="mainForm" method="post" action="${basePath}/business/addBusiness" enctype="multipart/form-data">
 			<input type="hidden" id="message" value="${pageCode.msg}"/>
 			<div class="right">
 				<div class="current">当前位置：<a href="###">内容管理</a> &gt; 商户管理</div>

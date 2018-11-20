@@ -125,10 +125,10 @@ public class AdServiceImpl implements AdService{
         if (updateCount != 1) {
             return false;
         }
-        //删除原来的图片文件
-        if (fileName != null) {
-            return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
-        }
+//        //删除原来的图片文件
+//        if (fileName != null) {
+//            return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
+//        }
         return true;
     }
 }
