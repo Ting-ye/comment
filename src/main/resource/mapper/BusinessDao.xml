@@ -67,12 +67,12 @@
     </select>
 
     <select id="searchLikeByPage" resultType="org.dy.bean.Business">
-        select <include refid="columns"/> from business
+        select <include refid="columns"/> from business b
         <where>
             <if test="title != null and !&quot;&quot;.equals(title.trim()) and
                       subtitle != null and !&quot;&quot;.equals(subtitle.trim()) and
                       desc != null and !&quot;&quot;.equals(desc.trim())">
-                and (title like '%'#{title}'%' or subtitle like '%'#{subtitle}'%' or `desc` like '%'#{desc}'%')
+                 (b.title like '%'#{title}'%' or b.subtitle like '%'#{subtitle}'%' or `b.desc` like '%'#{desc}'%')
             </if>
             <if test="city != null and !&quot;&quot;.equals(city.trim())">
                 and b.city = #{city}

@@ -53,24 +53,25 @@ public class ApiController {
 	 * 首页 —— 推荐列表（猜你喜欢）
 	 */
 	@RequestMapping(value = "/homelist/{city}/{page.currentPage}", method = RequestMethod.GET)
-	public BusinessListDto homelist(BusinessDto businessDto) {
-		return businessService.searchByPageForApi(businessDto);
+	public BusinessListDto homelist(BusinessDto businessDto,@PathVariable("page.currentPage")int pageNum) {
+
+		return businessService.searchByPageForApi(businessDto,pageNum);
 	}
 
 	/**
 	 * 搜索结果页 - 搜索结果 - 三个参数
 	 */
 	@RequestMapping(value = "/search/{page.currentPage}/{city}/{category}/{keyword}", method = RequestMethod.GET)
-	public BusinessListDto searchByKeyword(BusinessDto businessDto) {
-		return businessService.searchByPageForApi(businessDto);
+	public BusinessListDto searchByKeyword(BusinessDto businessDto,@PathVariable("page.currentPage")int pageNum) {
+		return businessService.searchByPageForApi(businessDto,pageNum);
 	}
 
 	/**
 	 * 搜索结果页 - 搜索结果 - 两个参数
 	 */
 	@RequestMapping(value = "/search/{page.currentPage}/{city}/{category}", method = RequestMethod.GET)
-	public BusinessListDto search(BusinessDto businessDto) {
-		return businessService.searchByPageForApi(businessDto);
+	public BusinessListDto search(BusinessDto businessDto,@PathVariable("page.currentPage")int pageNum) {
+		return businessService.searchByPageForApi(businessDto,pageNum);
 	}
 
 	/**

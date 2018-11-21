@@ -46,7 +46,7 @@ public interface BusinessService {
      * @param businessDto 查询条件
      * @return 商户列表Dto对象
      */
-    BusinessListDto searchByPageForApi(BusinessDto businessDto);
+    BusinessListDto searchByPageForApi(BusinessDto businessDto,int pageNum);
 
     List<Business> getBusinessListTest();
     /**
