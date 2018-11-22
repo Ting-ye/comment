@@ -108,7 +108,7 @@ public class BusinessServiceImpl implements BusinessService{
     }
 
     @Override
-    public BusinessListDto searchByPageForApi(BusinessDto businessDto) {
+    public BusinessListDto searchByPageForApi(BusinessDto businessDto,int pageNum) {
         BusinessListDto result =new BusinessListDto();
 
         // 组织查询条件
@@ -129,15 +129,21 @@ public class BusinessServiceImpl implements BusinessService{
 //        int currentPage = businessForSelect.getPage().getCurrentPage();
 //        businessForSelect.getPage().setCurrentPage(currentPage + 1);
 
-        PageHelper.startPage(1,5);
+        PageHelper.startPage(pageNum+1,5);
         List<Business> list=businessDao.searchLikeByPage(businessForSelect);
         // TODO
         // 设置hasMore
         PageInfo pageInfo= new PageInfo(list);
-        result.setHasMore(pageInfo.getPageNum()<pageInfo.getTotal());
+        result.setHasMore(pageInfo.getPageNum()<pageInfo.getPages());
 
-
-        
+        List<BusinessDto> dtoResult= new ArrayList<BusinessDto>();
+        for (Business business:list ) {
+            BusinessDto b= new BusinessDto();
+            dtoResult.add(b);
+            BeanUtils.copyProperties(business,b);
+            b.setImg(url+business.getImgFileName());
+        }
+        result.setData(dtoResult);
         return result;
     }
 

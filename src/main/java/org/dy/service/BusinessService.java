@@ -48,11 +48,16 @@ public interface BusinessService {
      */
     BusinessListDto searchByPageForApi(BusinessDto businessDto,int pageNum);
 
-    List<Business> getBusinessListTest();
+
     /**
      * 修改广告
      * @param bsDto
      * @return 是否修改成功：true-成功;fale-失败
      */
     boolean modify(BusinessDto bsDto);
+
+    /**
+     * 测试用
+     * */
+    List<Business> getBusinessListTest();
 }

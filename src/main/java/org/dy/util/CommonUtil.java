@@ -1,6 +1,7 @@
 package org.dy.util;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +33,13 @@ public class CommonUtil {
 	 * @return 随机整数
 	 */
 	public static int random(int number) {
-		return (int) ((Math.random() * 9 + 1) * Math.pow(10, number - 1));
+		StringBuilder str=new StringBuilder();//定义变长字符串
+		Random random=new Random();
+		for (int i = 0; i < number; i++) {
+			str.append(random.nextInt(10));
+		}
+		String result=str.toString();
+		return Integer.parseInt(result);
 	}
 
 	/**
