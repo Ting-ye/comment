@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dy.dao.OrdersDao">
+    <resultMap id="org.dy.bean.Orders" type="OrdersResultMap">
+        <id column="id" property="id"/>
+        <result column="comment_state" property="commentState"/>
+        <result column="price" property="price"/>
+        <association property="business" javaType="org.dy.bean.Business">
+            <result column="img_file_name" property="imgFileName"/>
+            <result column="title" property="title"/>
+            <result column="sellnumber" property="sellnumber"/>
+        </association>
+        <association property="member" javaType="org.dy.bean.Member">
+            <result column="phone" property="phone"/>
+        </association>
+    </resultMap>
+
+    <sql id="columns">id,business_id,member_id,num,comment_state,price</sql>
+
+    <insert id="insert">
+        insert into orders(business_id,member_id,num,comment_state,price)
+        values(#{businessId},#{memberId},#{num},#{commentState},#{price})
+    </insert>
+
+    <select id="searchById" resultType="org.dy.bean.Orders">
+        select <include refid="columns"/> from orders where id=#{_parameter}
+    </select>
+
+    <update id="update">
+        update orders
+        <set>
+            <if test="commentState != null">
+                comment_state=#{commentState},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="select" resultMap="OrdersResultMap">
+        select o.id,o.comment_state,o.price,b.img_file_name,b.title,b.sellnumber from orders o,business b
+        where o.business_id=b.id
+        <if test="memberId != null">
+            and o.member_id = #{memberId}
+        </if>
+    </select>
+</mapper>
