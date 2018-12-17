@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.dy.dao.OrdersDao">
-    <resultMap id="org.dy.bean.Orders" type="OrdersResultMap">
+    <resultMap id="OrdersResultMap" type="org.dy.bean.Orders">
         <id column="id" property="id"/>
         <result column="comment_state" property="commentState"/>
         <result column="price" property="price"/>

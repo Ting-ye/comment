@@ -7,27 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 public interface BusinessDao {
-    /**
-     * 根据主键删除数据*/
+    /**根据主键删除数据*/
     int delete(Long id);
 
-    /**
-     * 新增
-     */
+    /**新增*/
     int insert(Business business);
 
-    /**
-     *  根据主键查询商户
-     */
+    /**根据主键查询商户*/
     Business searchById(Long id);
 
-    /**
-     *  根据查询条件分页查询商户列表
-     */
+    /**根据查询条件分页查询商户列表*/
     List<Business> searchByPage(Business business);
-    /**
-     * 修改用户
-     * */
+
+    /**修改用户*/
     int update(Business business);
 
     /**
@@ -43,8 +35,6 @@ public interface BusinessDao {
      */
     int updateStar(Map<String,Date> map);
 
-    /**
-     * test pagehelper
-     * */
+    /**test pagehelper*/
     List<Business> searchtest();
 }

@@ -7,16 +7,12 @@ import javax.annotation.Resource;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.dy.bean.Ad;
+import org.dy.bean.Comment;
 import org.dy.bean.Member;
 import org.dy.constant.ApiCodeEnum;
-import org.dy.dto.AdDto;
-import org.dy.dto.ApiCodeDto;
-import org.dy.dto.BusinessDto;
-import org.dy.dto.BusinessListDto;
-import org.dy.service.AdService;
+import org.dy.dto.*;
+import org.dy.service.*;
 
-import org.dy.service.BusinessService;
-import org.dy.service.MemberService;
 import org.dy.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +34,12 @@ public class ApiController {
 
 	@Resource
 	private MemberService memberService;
+
+	@Autowired
+	private OrdersService ordersService;
+
+	@Autowired
+	private CommentService commentService;
 
 	@Value("${ad.pageNum}")
 	private int adPageNum;
@@ -140,6 +142,34 @@ public class ApiController {
 			}
 			return dto;
 		}
+
+	/**
+	 * 提交评论
+	 */
+	@RequestMapping(value = "/submitComment", method = RequestMethod.POST)
+	public ApiCodeDto submitComment(CommentForSubmitDto dto) {
+		ApiCodeDto result;
+		// 1、校验登录信息：token、手机号
+		Long phone = memberService.getPhone(dto.getToken());
+		if (phone != null && phone.equals(dto.getUsername())) {
+			// 2、根据手机号取出会员ID
+			Long memberId = memberService.getIdByPhone(phone);
+			// 3、根据提交上来的订单ID获取对应的会员ID，校验与当前登录的会员是否一致
+			OrdersDto ordersDto = ordersService.getById(dto.getId());
+			if(ordersDto.getMemberId().equals(memberId)) {
+				// 4、保存评论
+				commentService.add(dto);
+				result = new ApiCodeDto(ApiCodeEnum.SUCCESS);
+				// TODO
+				// 5、还有一件重要的事未做
+			} else {
+				result = new ApiCodeDto(ApiCodeEnum.NO_AUTH);
+			}
+		} else {
+			result = new ApiCodeDto(ApiCodeEnum.NOT_LOGGED);
+		}
+		return result;
+	}
 }
 
 
