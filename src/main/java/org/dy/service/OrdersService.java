@@ -1,5 +1,6 @@
 package org.dy.service;
 
+import org.dy.bean.Orders;
 import org.dy.dto.OrdersDto;
 
 import java.util.List;
@@ -26,4 +27,11 @@ public interface OrdersService {
      */
     List<OrdersDto> getListByMemberId(Long memberId);
 
+    /**
+     * 分页搜索商户列表
+     * 先查询出orders 然后再利用PageHelper插件 这样才可以得到正确的数值                
+     * */
+    List<Orders> searchByPage(OrdersDto ordersDto);
+
+    List<OrdersDto> searchByPageHelper(List<Orders> list);
 }

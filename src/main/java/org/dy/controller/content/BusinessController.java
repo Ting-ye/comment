@@ -59,6 +59,7 @@ public class BusinessController {
         PageInfo pageInfo= new PageInfo(bsList);
         return  businessService.searchByPageHelper(bsList);
     }
+
     /**
      模糊查询*/
     @RequestMapping(value = "search/{param}")

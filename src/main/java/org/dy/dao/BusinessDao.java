@@ -35,6 +35,11 @@ public interface BusinessDao {
      */
     int updateStar(Map<String,Date> map);
 
+    /**
+     * 更新商户的已售数量得出
+     */
+    int updateNumber();
+
     /**test pagehelper*/
     List<Business> searchtest();
 }

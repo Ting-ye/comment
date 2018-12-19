@@ -123,5 +123,8 @@
         where id=#{id}
     </update>
 
-
+    <update id="updateNumber">
+        update business b,(select business_id,count(*) cou from orders group by business_id) o
+        set b.sellnumber=o.cou where b.id=o.business_id
+    </update>
 </mapper>

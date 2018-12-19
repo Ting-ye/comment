@@ -89,6 +89,21 @@ public class ApiController {
 		return businessService.getById(id);
 	}
 
+    /**
+     * 详情页 - 用户评论
+     */
+    @RequestMapping(value = "/detail/comment/{currentPage}/{businessId}", method = RequestMethod.GET)
+    public CommentListDto detail(@PathVariable("businessId") Long businessId,@PathVariable("currentPage")int pageNum) {
+        return commentService.getListByBusinessId(businessId,pageNum);
+    }
+	/**商户页面—商家评论
+	 **/
+	@RequestMapping(value ="/orderlist/{username}",method = RequestMethod.GET)
+	public List<OrdersDto>  orderlist(@PathVariable("username") Long username){
+		Long memberId = memberService.getIdByPhone(username);
+		return ordersService.getListByMemberId(memberId);
+	}
+
 	/**
 	 * 根据手机号下发短信验证码
 	 */
@@ -170,6 +185,31 @@ public class ApiController {
 		}
 		return result;
 	}
+    /**
+     * 买单
+     */
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    public ApiCodeDto order(OrderForBuyDto orderForBuyDto) {
+        ApiCodeDto dto;
+        // 1、校验token是否有效（缓存中是否存在这样一个token，并且对应存放的会员信息（这里指的是手机号）与提交上来的信息一致）
+        Long phone = memberService.getPhone(orderForBuyDto.getToken());
+        if (phone != null && phone.equals(orderForBuyDto.getUsername())) {
+            // 2、根据手机号获取会员主键
+            Long memberId = memberService.getIdByPhone(phone);
+            // 3、保存订单
+            OrdersDto ordersDto = new OrdersDto();
+            ordersDto.setNum(orderForBuyDto.getNum());
+            ordersDto.setPrice(orderForBuyDto.getPrice());
+            ordersDto.setBusinessId(orderForBuyDto.getId());
+            ordersDto.setMemberId(memberId);
+            ordersService.add(ordersDto);
+            dto = new ApiCodeDto(ApiCodeEnum.SUCCESS);
+            // 4、TODO 还有一件重要的事未做
+        } else {
+            dto = new ApiCodeDto(ApiCodeEnum.NOT_LOGGED);
+        }
+        return dto;
+    }
 }
 
 

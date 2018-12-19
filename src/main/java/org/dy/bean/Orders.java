@@ -4,11 +4,19 @@ public class Orders {
     private Long id;
     private Long businessId;
     private Long memberId;
-    private Long num;
+    private Integer num;
     private Integer commentState;
     private Double price;
     private Business business;
     private Member member;
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
 
     public Business getBusiness() {
         return business;
@@ -50,13 +58,6 @@ public class Orders {
         this.memberId = memberId;
     }
 
-    public Long getNum() {
-        return num;
-    }
-
-    public void setNum(Long num) {
-        this.num = num;
-    }
 
     public Integer getCommentState() {
         return commentState;

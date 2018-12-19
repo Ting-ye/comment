@@ -4,16 +4,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8081/comment/css/all.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8081/comment/css/pop.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8081/comment/css/main.css">
-		<script type="text/javascript" src="http://127.0.0.1:8081/comment/js/common/jquery-1.8.3.js"></script>
-		<script type="text/javascript" src="http://127.0.0.1:8081/comment/js/content/adList.js"></script>
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/all.css">
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/pop.css">
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/main.css">
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/jquery.page.css"/>
+		<script type="text/javascript" src="${basePath}/js/common/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="${basePath}/js/common/jquery.page.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
-		<form action="http://127.0.0.1:8081/comment/ad/search" id="mainForm" method="post">
+		<form action="${basePath}/orders/search" id="mainForm" method="post">
 			<input id="id" name="id" type="hidden">
-			<input id="basePath" value="http://127.0.0.1:8081/comment" type="hidden">
 			<input name="page.currentPage" id="currentPage" value="1" type="hidden">
 			<div class="right">
 				<div class="current">当前位置：<a href="#">内容管理</a> &gt; 订单查询</div>
@@ -33,7 +33,7 @@
 						</tbody>
 					</table>
 					<div class="zixun fix">
-						<table class="tab2" width="100%">
+						<table class="tab2" width="100%" id="tab">
 							<tbody>
 								<tr>
 								    <th>序号</th>
@@ -41,43 +41,55 @@
 								    <th>订单号</th>
 								    <th>金额(元)</th>
 								</tr>
-								
+
+								<c:forEach items="${ordersList}" var="item" varStatus="s">
 									<tr>
-										<td>1</td>
-										<td>13912345678</td>
-										<td>123</td>
-										<td>668</td>
+										<td>${s.index + 1}</td>
+										<td>${item.member.phone}</td>
+										<td>${item.id}</td>
+										<td>${item.price}</td>
 									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
-						
+
 						<!-- 分页 -->
-						
-
-
-
-<script type="text/javascript">
-	function transCurrentPage(currentPage) {
-		var rule = /^[0-9]*[1-9][0-9]*$/;
-		if(!rule.test(currentPage)) {
-			currentPage = 1;
-		}
-		eval("search(currentPage)");
-	}
-</script>
-
-<div class="page fix">
-	<a href="javascript:transCurrentPage('1');" class="first">首页</a>
-	<a href="javascript:transCurrentPage('0');" class="pre">上一页</a>
-	当前第<span>1/1</span>页
-	<a href="javascript:transCurrentPage('2');" class="next">下一页</a>
-	<a href="javascript:transCurrentPage('1');" class="last">末页</a>
-	跳至 &nbsp;<input id="currentPageText" value="1" class="allInput w28" type="text">&nbsp;页 &nbsp;
-	<a href="javascript:transCurrentPage($('#currentPageText').val());" class="go">GO</a>
-</div>
+						<div id="page"></div>
 					</div>
 				</div>
 			</div>
 		</form>
 	
-</body></html>
+</body>
+	<script>
+        var tbody=window.document.getElementById("tab");
+        $(function(){
+            $("#page").Page({
+                totalPages: ${pagenum},//分页总数
+                liNums: 5,//分页的数字按钮数(建议取奇数)
+                activeClass: 'activP', //active 类样式定义
+                callBack : function(page){
+                    $.ajax({
+                        type: "GET",
+                        //提交方式
+                        url: "${basePath}/orders/getlist/"+page,
+                        //路径
+                        success: function(data) {
+                            $("#tab   tr:not(:first)").html("");
+                            var str = "" ;
+                            for (var i in data) {
+                                str +="<tr>" +
+                                    "<td>" + (Number(i)+1) + "</td>" +
+                                    "<td>" + data[i].member.phone + "</td>" +
+                                    "<td>" + data[i].id + "</td>"+
+                                    "<td>" + data[i].price + "</td>"+
+                                    "</tr>";
+                            }
+                            tbody.innerHTML += str;
+                        }
+                    });
+                }
+            });
+        })
+	</script>
+</html>
