@@ -41,8 +41,5 @@
     <select id="select" resultMap="OrdersResultMap">
         select o.id,o.comment_state,o.price,b.img_file_name,b.title,b.sellnumber,m.phone from orders o,business b,member m
         where o.business_id=b.id and o.member_id=m.id
-        <if test="phone !=null">
-            and m.phone=#{phone}
-        </if>
     </select>
 </mapper>

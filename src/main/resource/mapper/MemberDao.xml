@@ -10,6 +10,6 @@
                 phone=#{phone}
             </if>
         </where>
-        order by id
+        order by phone
     </select>
 </mapper>
